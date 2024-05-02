@@ -1,0 +1,16 @@
+{% extends 'plat/template.html.twig' %}
+
+{% block title %} Ajouter un plat {% endblock %}
+
+{% block body %}
+
+<h1>Ajouter un plat </h1>
+
+    {{ form_start(form) }}
+
+    {{ include('plat/_form.html.twig') }}
+    <button class="btn btn-primary">
+        Ajouter
+    </button>
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'plat/template.html.twig' %}
+
+{% block title %}{{ gerant.name }}{% endblock %}
+
+{% block body %}
+<style>
+    
+    .card-img-top
+     {
+        height: 200px; 
+        object-fit: cover; 
+     }
+</style>
+<div class="card-header">
+            <a class="btn btn-outline-info float-right" href="{{ path('app_plat') }}"> 
+                Retour à la liste des plats
+            </a>
+        </div>
+<div class="container">
+    <h1>{{ gerant.name }}</h1>
+    <div class="row">
+        {% for plat in plats %}
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <a href="{{ path('plat_detail', {'id': plat.idPlat}) }}"> 
+                       <img src="{{ plat.image }}" class="card-img-top" alt="{{ plat.nom }}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ plat.nom }}</h5>
+                        <p class="card-text">{{ plat.prix }} TND</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

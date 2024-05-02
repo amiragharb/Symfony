@@ -1,0 +1,49 @@
+{% extends 'plat/template.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<style>
+    /* Style CSS pour définir une hauteur fixe pour les images */
+    .card-img-top {
+        height: 200px; /* Ajustez cette valeur selon vos besoins */
+        object-fit: cover; /* Pour conserver les proportions de l'image */
+    }
+</style>
+
+<div class="container">
+    <h2 class="text-center mt-5 mb-3">Nos restaurants</h2>
+    <div class="row">
+        {% for gerant in gerants|slice(0, 3) %} {# Affiche seulement 3 gérants #}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <a href="{{ path('gerant_show', {'id': gerant.id}) }}">
+                        <img src="{{ gerant.image }}" class="card-img-top" alt="{{ gerant.name }}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ gerant.name }}</h5>
+                        <p class="card-text">{{ gerant.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <h2 class="text-center mt-5 mb-3">Découvrez nos plats</h2>
+    <div class="row">
+        {% for plat in plats|slice(0, 8) %}
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <a href="{{ path('plat_detail', {'id': plat.idPlat}) }}"> 
+                       <img src="{{ plat.image }}" class="card-img-top" alt="{{ plat.nom }}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ plat.nom }}</h5>
+                        <p class="card-text">{{ plat.prix }} TND</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

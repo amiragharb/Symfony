@@ -1,0 +1,56 @@
+{% extends 'commande_resto/template.html.twig' %}
+
+{% block body %}
+<div >
+    <h2> Commandes du Restaurant</h2>
+    <div class="container-commands">
+    <div class="cards"> 
+        {% for commande in pagination %}
+            {% for commandeClient in commandeClients[commande.getId()] %}
+                <div class="card">
+                    <div class="card-header">
+                        le numéro de commande: {{ commandeClient.id }}
+                    </div>
+                    <div class="card-body">
+                        <p>Total: {{ commandeClient.prix }}</p>
+                        <p>Date: {{ commandeClient.date|date('Y-m-d') }}</p>
+                        <form action="{{ path('modifier_statut_commande') }}" method="post">
+                            <input type="hidden" name="commandeClientId" value="{{ commandeClient.id }}">
+                            <select name="status" class="status-select" onchange="this.form.submit()">
+                                <option value="En cours" {{ commandeClient.status == 'En cours' ? 'selected' : '' }}>En cours</option>
+                                <option value="A accepter" {{ commandeClient.status == 'A accepter' ? 'selected' : '' }}>A accepter</option>
+                                <option value="A la livraison" {{ commandeClient.status == 'A la livraison' ? 'selected' : '' }}>A la livraison</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    </div>
+ <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {# Previous Page Link #}
+        <li class="page-item {% if pagination.currentPageNumber == 1 %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('restaurant_commandes', {'page': pagination.currentPageNumber - 1}) }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        
+        {# Pagination Links #}
+        {% for i in 1..pagination.pageCount %}
+            <li class="page-item {% if i == pagination.currentPageNumber %}active{% endif %}">
+                <a class="page-link" href="{{ path('restaurant_commandes', {'page': i}) }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+        
+        {# Next Page Link #}
+        <li class="page-item {% if pagination.currentPageNumber == pagination.pageCount %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('restaurant_commandes', {'page': pagination.currentPageNumber + 1}) }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+</div>
+{% endblock %}

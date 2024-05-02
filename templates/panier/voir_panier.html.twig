@@ -1,0 +1,55 @@
+{% extends 'plat/template.html.twig' %}
+{% block title %}Votre panier{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2 class="text-center mt-5 mb-3">Votre Panier</h2>
+    <a class="btn btn-outline-info float-right" href="{{ path('app_plat') }}"> 
+        Retour à la liste des plats
+    </a>
+    {% if detailPanier is not empty %}
+        <div class="panier-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Plat</th>
+                        <th>Prix Unitaire</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in detailPanier %}
+                        <tr>
+                            <td><img src="{{ item.plat.image }}" alt="{{ item.plat.nom }}" style="width: 50px; height: auto;"></td>
+                            <td>{{ item.plat.nom }}</td>
+                            <td>{{ item.plat.prix | number_format(2, ',', ' ') }} D</td>
+                            <td>
+                                <form action="{{ path('modifier_quantite_panier', {'id': item.plat.idPlat}) }}" method="POST" style="display: flex; align-items: center; gap: 5px;">
+                                    <button type="submit" name="action" value="decrease" class="btn">-</button>
+                                    <input type="text" name="quantite" value="{{ item.quantite }}" class="form-control" style="width: 50px; text-align: center;" >
+                                    <button type="submit" name="action" value="increase" class="btn">+</button>
+                                </form>
+                            </td>
+                            <td>{{ item.prixTotalPlat | number_format(2, ',', ' ') }} D</td>
+                            <td>
+                                <a href="{{ path('supprimer_du_panier', {'id': item.plat.idPlat}) }}" class="btn" style="background-color: #00BFFF; color: white;">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="4">Total</td>
+                        <td>{{ total | number_format(2, ',', ' ') }} D</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ path('confirmation_commande') }}" class="btn btn-primary">Confirmer la commande</a>
+    {% else %}
+        <p class="text-center mt-5">Votre panier est vide.</p>
+    {% endif %}
+</div>
+{% endblock %}

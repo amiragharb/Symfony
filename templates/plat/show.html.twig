@@ -1,0 +1,34 @@
+{% extends 'plat/template.html.twig' %}
+
+{% block title %}Détails du Plat{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2 class="text-center mt-5 mb-3">Détails du plat</h2>
+    <div class="card">
+        <div class="card-header">
+            <a class="btn btn-outline-info float-right" href="{{ path('app_plat') }}"> 
+                Retour à la liste des plats
+            </a>
+        </div>
+        <div class="card-body">
+            <b class="text-muted" style="font-size: 20px;">Nom :</b>
+            <!-- Utilisation d'une taille de police personnalisée -->
+            <p>{{ plat.nom }}</p>
+            <!-- Assurez-vous que plat.image contient le chemin correct vers l'image du plat -->
+            <img src="{{ asset(plat.image) }}" class="card-img-top" alt="{{ plat.nom }}" width="300" height="300">
+            <!-- Définissez les dimensions que vous souhaitez -->
+            <b class="text-muted" style="font-size: 18px; font-style: italic;">Description :</b>
+            <!-- Utilisation de styles de police et d'italiques personnalisés -->
+            <p style="font-size: 16px;">{{ plat.description }}</p>
+            <!-- Augmentation de la taille de police -->
+            <b class="text-muted">Prix :</b>
+            <p style="font-size: 18px;">{{ plat.prix }}</p>
+            <!-- Utilisation d'une taille de police plus grande -->
+            <!-- Bouton Ajouter au panier -->
+            <a href="{{ path('ajouter_au_panier', {'id': plat.idPlat}) }}" class="btn btn-primary">Ajouter au panier</a>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

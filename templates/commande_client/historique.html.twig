@@ -1,0 +1,67 @@
+{% extends 'plat/template.html.twig' %}
+
+{% block title %}Historique des commandes{% endblock %}
+
+{% block body %}
+<div class="container">
+    <a class="btn btn-outline-info float-right" href="{{ path('app_plat') }}">
+        Retour à la liste des plats
+    </a>
+    <h2 class="text-center mt-5 mb-3">Historique des commandes</h2>
+    {% if pagination is not empty %}
+        <table class="table table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Plat</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commande in pagination %}
+                <tr>
+                    <td>{{ commande.date|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ commande.idPlat.nom }}</td>
+                    <td>
+                        <img src="{{ asset(commande.idPlat.image) }}" class="card-img-top" alt="{{ commande.idPlat.nom }}" width="50" height="50">
+                    </td>
+                    <td>{{ commande.quantite }}</td>
+                    <td>{{ commande.status }}</td>
+                    <td>{{ commande.prix }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+       <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {# Previous Page Link #}
+        <li class="page-item {% if pagination.currentPageNumber == 1 %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_commande_client', {'page': pagination.currentPageNumber - 1}) }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        
+        {# Pagination Links #}
+        {% for i in 1..pagination.pageCount %}
+            <li class="page-item {% if i == pagination.currentPageNumber %}active{% endif %}">
+                <a class="page-link" href="{{ path('app_commande_client', {'page': i}) }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+        
+        {# Next Page Link #}
+        <li class="page-item {% if pagination.currentPageNumber == pagination.pageCount %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_commande_client', {'page': pagination.currentPageNumber + 1}) }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+    {% else %}
+        <p class="text-center mt-5">Aucune commande trouvée dans l'historique.</p>
+    {% endif %}
+</div>
+{% endblock %}
